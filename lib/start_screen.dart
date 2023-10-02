@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:tic_tac_toe/choose_screen.dart';
+import 'package:tic_tac_toe/components.dart';
 
-class StartScreen extends StatelessWidget {
+class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
 
+  @override
+  State<StartScreen> createState() => _StartScreenState();
+}
+
+class _StartScreenState extends State<StartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,13 +32,22 @@ class StartScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+                "CHOOSE GAME MODE",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26
+                ),
+            ),
+            SizedBox(height: 10,),
             Image(
                 image:AssetImage("assets/xo.jpg"),
             ),
             SizedBox(height: 25,),
             InkWell(
               onTap: (){
-
+                navigateTo(context, ChooseScreen());
               },
               child: Container(
                 width: double.infinity,

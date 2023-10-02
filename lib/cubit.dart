@@ -30,6 +30,8 @@ class GameCubit extends Cubit<GameStates> {
   int PLAYER_ONE = 1;
   int PLAYER_TWO = 2;
 
+  int WINNER = 0;
+
   bool turn = true;
 
   void changeGridValues(int row,int column,int value){
@@ -65,6 +67,46 @@ class GameCubit extends Cubit<GameStates> {
   }
 
 
+  void checkWinner(){
+    //Check for rows
+    for (int i=0;i<3;i++){
+      if(valuesGrid[i][0]==valuesGrid[i][1]&&valuesGrid[i][1]==valuesGrid[i][2]){
+         WINNER = valuesGrid[i][0];
+         emit(WinnerGameState());
+         return;
+      }
+    }
+    //Check for cols
+    for (int i=0;i<3;i++){
+      if(valuesGrid[0][i]==valuesGrid[1][i]&&valuesGrid[1][i]==valuesGrid[2][i]){
+        WINNER = valuesGrid[0][i];
+        emit(WinnerGameState());
+        return;
+      }
+    }
+    //check diagonals
+    if(valuesGrid[0][0]==valuesGrid[1][1] && valuesGrid[1][1]==valuesGrid[2][2]){
+      WINNER = valuesGrid[0][0];
+      emit(WinnerGameState());
+      return;
+    }
+    if(valuesGrid[0][2]==valuesGrid[1][1] && valuesGrid[1][1]==valuesGrid[2][0]){
+      WINNER = valuesGrid[1][1];
+      emit(WinnerGameState());
+      return;
+    }
+    checkDraw();
+  }
+
+  bool checkDraw(){
+    for (int i=0;i<3;i++){
+      for (int j=0;j<3;j++){
+        if(valuesGrid[i][j]==0)return false;
+      }
+    }
+    emit(DrawGameState());
+    return true;
+  }
   void changeTurn(){
     turn = !turn;
     emit(ChangeTurnGameState());

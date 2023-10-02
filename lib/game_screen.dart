@@ -16,6 +16,9 @@ class GameScreen extends StatelessWidget {
           if(state is ErrorChangGridGameState){
             showToast(text: "Choose another cell");
           }
+          if(state is DrawGameState()){
+
+          }
         },
         builder: (context,state) {
           var cubit = GameCubit.get(context);
@@ -26,7 +29,7 @@ class GameScreen extends StatelessWidget {
                 onPressed: (){
                 navigateAndFinish(context, StartScreen());
                 },
-                icon: Icon(Icons.arrow_back_ios),
+                icon: Icon(Icons.arrow_back_ios,color: Colors.redAccent,),
               ),
             backgroundColor: HexColor("#050A30"),
               elevation: 0,
@@ -72,7 +75,7 @@ class GameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                     InkWell(
                       onTap: (){
                         if(cubit.turn){
@@ -99,7 +102,7 @@ class GameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                     InkWell(
                       onTap: (){
                         if(cubit.turn){
@@ -128,7 +131,7 @@ class GameScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10.0,),
+                SizedBox(height: 15.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -158,7 +161,7 @@ class GameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                     InkWell(
                       onTap: (){
                         if(cubit.turn){
@@ -185,7 +188,7 @@ class GameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                     InkWell(
                       onTap: (){
                         if(cubit.turn){
@@ -214,7 +217,7 @@ class GameScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10.0,),
+                SizedBox(height: 15.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -244,7 +247,7 @@ class GameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                     InkWell(
                       onTap: (){
                         if(cubit.turn){
@@ -271,7 +274,7 @@ class GameScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 10,),
+                    SizedBox(width: 15,),
                     InkWell(
                       onTap: (){
                         if(cubit.turn){

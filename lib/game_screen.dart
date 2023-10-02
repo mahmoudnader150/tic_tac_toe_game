@@ -11,13 +11,14 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String message = "";
     return  BlocConsumer<GameCubit,GameStates>(
         listener: (context,state){
           if(state is ErrorChangGridGameState){
             showToast(text: "Choose another cell");
           }
-          if(state is DrawGameState()){
-
+          if(state is DrawGameState){
+              message ="DRAW!";
           }
         },
         builder: (context,state) {
@@ -37,6 +38,14 @@ class GameScreen extends StatelessWidget {
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
                 Text(
                   (cubit.turn)?"Player X turn":"Player O turn",
                   style: TextStyle(

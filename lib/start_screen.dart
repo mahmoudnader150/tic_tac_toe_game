@@ -41,18 +41,18 @@ class _StartScreenState extends State<StartScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "CHOOSE GAME MODE",
+                  "Press Start to play",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 26
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 15,),
                 Image(
                   image: AssetImage("assets/xo.jpg"),
                 ),
-                SizedBox(height: 25,),
+                SizedBox(height: 30,),
                 InkWell(
                   onTap: () {
                     cubit.clearGame();
@@ -67,7 +67,7 @@ class _StartScreenState extends State<StartScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        "Player vs. Player",
+                        "START",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 35,
@@ -78,29 +78,7 @@ class _StartScreenState extends State<StartScreen> {
                   ),
                 ),
                 SizedBox(height: 25,),
-                InkWell(
-                  onTap: () {
 
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.orangeAccent,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Player vs. Device",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 35,
-                            color: Colors.white
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

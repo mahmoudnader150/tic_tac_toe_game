@@ -115,8 +115,8 @@ class GameCubit extends Cubit<GameStates> {
     emit(ChangeTurnGameState());
   }
   String gameMessage(){
-    if( WINNER==1) return "Player X Wins!";
-    else if(WINNER==2) return "Player O Wins!";
+    if( WINNER==1) return "${PLAYER_ONE_NAME} Wins!";
+    else if(WINNER==2) return "${PLAYER_TWO_NAME} Wins!";
     if(checkDraw())return "DRAW!";
     return "";
   }

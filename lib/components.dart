@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 Widget defaultTextButton({
   required VoidCallback? function,
   required String text
-})=>TextButton(onPressed: function, child: Text(text.toUpperCase(),style: TextStyle(color: Colors.teal),),);
+})=>TextButton(onPressed: function, child: Center(child: Text(text.toUpperCase(),style: TextStyle(color: Colors.purpleAccent,fontSize: 20),)),);
 
 
 void navigateAndFinish(context,widget)=> Navigator.pushAndRemoveUntil(

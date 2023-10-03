@@ -32,65 +32,68 @@ class ChooseScreen extends StatelessWidget {
                ),
                backgroundColor: HexColor("#050A30"),
                elevation: 0.0,),
-             body: Padding(
-               padding: const EdgeInsets.all(20.0),
-               child: Form(
-                 key: formKey,
-                   child: Center(
-                     child: Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Please enter your names: ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 26,
-                            color: Colors.white
-                          ),
-                        ),
-                        SizedBox(height: 20,),
-                        defaultFormField(
-                              controller: playerX,
-                              type: TextInputType.text,
-                              validate: (value){
-                                if(value!.isEmpty){return "Please enter your name";}
-                                return null;
-                              },
-                              label: "PlayerX",
-                              prefix: Icons.title_sharp
+             body: Center(
+               child: SingleChildScrollView(
+                 child: Padding(
+                   padding: const EdgeInsets.all(16.0),
+                   child: Form(
+                     key: formKey,
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Please enter your names: ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 26,
+                              color: Colors.white
+                            ),
                           ),
                           SizedBox(height: 20,),
                           defaultFormField(
-                            controller: playerO,
-                            type: TextInputType.text,
-                            validate: (value){
-                              if(value!.isEmpty){return "Please enter your name";}
-                              return null;
-                            },
-                            label: "PlayerO",
-                            prefix: Icons.title_sharp
-                        ),
-                        SizedBox(height: 25,),
-                        MaterialButton(
-                          onPressed: () {
-                            if(formKey.currentState!.validate()){
-                              cubit.PLAYER_ONE_NAME = playerX.text;
-                              cubit.PLAYER_TWO_NAME = playerO.text;
-                               navigateAndFinish(context, GameScreen());
-                            }
-                          },
-                          color:  Colors.purpleAccent,
-                          child: Text(
-                            "START",
-                            style: TextStyle(
-                              color:Colors.white,
+                                controller: playerX,
+                                type: TextInputType.text,
+                                validate: (value){
+                                  if(value!.isEmpty){return "Please enter your name";}
+                                  if(value==playerO.text){
+                                    return "Please enter different names";
+                                  }
+                                  return null;
+                                },
+                                label: "Player X",
+                                prefix: Icons.title_sharp
                             ),
+                            SizedBox(height: 10,),
+                            defaultFormField(
+                              controller: playerO,
+                              type: TextInputType.text,
+                              validate: (value){
+                                if(value!.isEmpty){return "Please enter your name";}
+                                if(value==playerX.text){
+                                  return "Please enter different names";
+                                }
+                                return null;
+                              },
+                              label: "Player O",
+                              prefix: Icons.circle_outlined
                           ),
-                        )
-                      ],
-               ),
-                   ),
+                          SizedBox(height: 20,),
+                          defaultTextButton(
+                            function: () {
+                              if(formKey.currentState!.validate()){
+                                cubit.PLAYER_ONE_NAME = playerX.text;
+                                cubit.PLAYER_TWO_NAME = playerO.text;
+                                cubit.clearGame();
+                                 navigateAndFinish(context, GameScreen());
+                              }
+                            },
+                            text: "START"
+                          )
+                        ],
+                       ),
+                     ),
                  ),
+               ),
              ),
            );
         },

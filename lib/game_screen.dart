@@ -50,7 +50,16 @@ class GameScreen extends StatelessWidget {
           }
         },
         builder: (context,state) {
-
+          bool someOneWon(){
+            if(state is RowWinnerGameState ||
+                state is ColumnWinnerGameState||
+                state is DiagonalWinnerGameState||
+                state is DrawGameState
+            ){
+              return true;
+            }
+            return false;
+          }
           return Scaffold(
             backgroundColor: HexColor("#050A30"),
             appBar: AppBar(
@@ -91,6 +100,7 @@ class GameScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                            if(cubit.turn){
                              cubit.changeGridValues(0, 0, cubit.PLAYER_ONE);
                            }else{
@@ -119,6 +129,7 @@ class GameScreen extends StatelessWidget {
                       SizedBox(width: 15,),
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(0, 1, cubit.PLAYER_ONE);
                           }else{
@@ -147,6 +158,7 @@ class GameScreen extends StatelessWidget {
                       SizedBox(width: 15,),
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(0, 2, cubit.PLAYER_ONE);
                           }else{
@@ -180,6 +192,7 @@ class GameScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(1, 0, cubit.PLAYER_ONE);
                           }else{
@@ -208,6 +221,7 @@ class GameScreen extends StatelessWidget {
                       SizedBox(width: 15,),
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(1, 1, cubit.PLAYER_ONE);
                           }else{
@@ -236,6 +250,7 @@ class GameScreen extends StatelessWidget {
                       SizedBox(width: 15,),
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(1, 2, cubit.PLAYER_ONE);
                           }else{
@@ -269,6 +284,7 @@ class GameScreen extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(2, 0, cubit.PLAYER_ONE);
                           }else{
@@ -297,6 +313,7 @@ class GameScreen extends StatelessWidget {
                       SizedBox(width: 15,),
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(2, 1, cubit.PLAYER_ONE);
                           }else{
@@ -325,6 +342,7 @@ class GameScreen extends StatelessWidget {
                       SizedBox(width: 15,),
                       InkWell(
                         onTap: (){
+                          if(someOneWon()) return;
                           if(cubit.turn){
                             cubit.changeGridValues(2, 2, cubit.PLAYER_ONE);
                           }else{

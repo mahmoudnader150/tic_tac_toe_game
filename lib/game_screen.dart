@@ -67,6 +67,7 @@ class GameScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: 60,),
                   Text(
                     cubit.gameMessage(),
                     style: TextStyle(

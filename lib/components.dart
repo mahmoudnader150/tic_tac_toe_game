@@ -56,26 +56,29 @@ Widget defaultFormField({
   onChanged: onChange ,
   validator: validate ,
   obscureText: obscure,
-  cursorColor: Colors.teal,
+  cursorColor: Colors.purpleAccent  ,
   onTap: onTap,
   enabled: isClickable,
+  style: TextStyle(
+    color: Colors.white
+  ),
   decoration: InputDecoration(
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.teal), // Border color when not focused
+      borderSide: BorderSide(color:  Colors.purpleAccent), // Border color when not focused
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.teal), // Border color when focused
+      borderSide: BorderSide(color: Colors.purpleAccent), // Border color when focused
     ),
     labelText: label,
     labelStyle: TextStyle(
-        color:  Colors.teal
+        color: Colors.purpleAccent
     ),
 
     suffixIcon: IconButton(
       icon: Icon(suffix),
       onPressed: suffixPressed,
     ),
-    prefixIcon: Icon(prefix,color: Colors.teal,),
+    prefixIcon: Icon(prefix,color: Colors.purpleAccent,),
     border: OutlineInputBorder(
     ),
   ),

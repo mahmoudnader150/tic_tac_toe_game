@@ -56,7 +56,7 @@ class _StartScreenState extends State<StartScreen> {
                 InkWell(
                   onTap: () {
                     cubit.clearGame();
-                    navigateTo(context, GameScreen());
+                    navigateTo(context, ChooseScreen());
                   },
                   child: Container(
                     width: double.infinity,

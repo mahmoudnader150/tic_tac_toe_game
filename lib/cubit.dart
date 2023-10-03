@@ -29,6 +29,8 @@ class GameCubit extends Cubit<GameStates> {
 
   int PLAYER_ONE = 1;
   int PLAYER_TWO = 2;
+  String PLAYER_ONE_NAME = "Player X";
+  String PLAYER_TWO_NAME = "Player O";
 
   int WINNER = 0;
 
@@ -56,6 +58,7 @@ class GameCubit extends Cubit<GameStates> {
 
 
   void clearGame(){
+    WINNER = 0;
     turn = true;
     for(int i=0;i<3;i++)
         for(int j=0;j<3;j++){
@@ -68,37 +71,36 @@ class GameCubit extends Cubit<GameStates> {
 
 
   void checkWinner(){
+    print(valuesGrid);
     //Check for rows
     for (int i=0;i<3;i++){
-      if(valuesGrid[i][0]==valuesGrid[i][1]&&valuesGrid[i][1]==valuesGrid[i][2]){
+      if(valuesGrid[i][0]==valuesGrid[i][1]&&valuesGrid[i][1]==valuesGrid[i][2] && valuesGrid[i][2] !=0){
          WINNER = valuesGrid[i][0];
-         emit(WinnerGameState());
+         emit(RowWinnerGameState());
          return;
       }
     }
     //Check for cols
     for (int i=0;i<3;i++){
-      if(valuesGrid[0][i]==valuesGrid[1][i]&&valuesGrid[1][i]==valuesGrid[2][i]){
+      if(valuesGrid[0][i]==valuesGrid[1][i]&&valuesGrid[1][i]==valuesGrid[2][i]&& valuesGrid[2][i] !=0){
         WINNER = valuesGrid[0][i];
-        emit(WinnerGameState());
+        emit(ColumnWinnerGameState());
         return;
       }
     }
     //check diagonals
-    if(valuesGrid[0][0]==valuesGrid[1][1] && valuesGrid[1][1]==valuesGrid[2][2]){
+    if(valuesGrid[0][0]==valuesGrid[1][1] && valuesGrid[1][1]==valuesGrid[2][2]&& valuesGrid[2][2] !=0){
       WINNER = valuesGrid[0][0];
-      emit(WinnerGameState());
+      emit(DiagonalWinnerGameState());
       return;
     }
-    if(valuesGrid[0][2]==valuesGrid[1][1] && valuesGrid[1][1]==valuesGrid[2][0]){
+    if(valuesGrid[0][2]==valuesGrid[1][1] && valuesGrid[1][1]==valuesGrid[2][0]&& valuesGrid[2][0] !=0){
       WINNER = valuesGrid[1][1];
-      emit(WinnerGameState());
+      emit(DiagonalWinnerGameState());
       return;
     }
     checkDraw();
   }
-
-
   bool checkDraw(){
     for (int i=0;i<3;i++){
       for (int j=0;j<3;j++){
@@ -112,5 +114,10 @@ class GameCubit extends Cubit<GameStates> {
     turn = !turn;
     emit(ChangeTurnGameState());
   }
-
+  String gameMessage(){
+    if( WINNER==1) return "Player X Wins!";
+    else if(WINNER==2) return "Player O Wins!";
+    if(checkDraw())return "DRAW!";
+    return "";
+  }
 }

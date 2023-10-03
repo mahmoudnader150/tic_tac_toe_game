@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:async';
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -8,21 +12,43 @@ import 'package:tic_tac_toe/states.dart';
 
 class GameScreen extends StatelessWidget {
 
+  Future<void> sleep(Duration duration) {
+    // Create a Completer to manage the asynchronous task
+    final Completer<void> completer = Completer<void>();
+
+    // Create a Timer that completes the Completer after the specified duration
+    Timer(duration, () {
+      completer.complete();
+    });
+
+    // Return the Completer's Future
+    return completer.future;
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    String message = "";
+    String message = "";var cubit = GameCubit.get(context);
     return  BlocConsumer<GameCubit,GameStates>(
         listener: (context,state){
           if(state is ErrorChangGridGameState){
             showToast(text: "Choose another cell");
           }
-          if(state is DrawGameState){
-              message ="DRAW!";
+          if(state is RowWinnerGameState ||
+             state is ColumnWinnerGameState||
+             state is DiagonalWinnerGameState||
+             state is DrawGameState
+          ){
+            sleep(Duration(seconds: 1)).then((_) {
+              cubit.clearGame();
+            });
           }
         },
         builder: (context,state) {
-          var cubit = GameCubit.get(context);
+
           return Scaffold(
             backgroundColor: HexColor("#050A30"),
             appBar: AppBar(
@@ -30,7 +56,7 @@ class GameScreen extends StatelessWidget {
                 onPressed: (){
                 navigateAndFinish(context, StartScreen());
                 },
-                icon: Icon(Icons.arrow_back_ios,color: Colors.redAccent,),
+                icon: Icon(Icons.arrow_back_ios,color: cubit.turn?Colors.red:Colors.orangeAccent,),
               ),
             backgroundColor: HexColor("#050A30"),
               elevation: 0,
@@ -39,13 +65,14 @@ class GameScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  message,
+                  cubit.gameMessage(),
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 26,
+                    fontSize: 36,
                     fontWeight: FontWeight.bold
                   ),
                 ),
+                SizedBox(height: 20,),
                 Text(
                   (cubit.turn)?"Player X turn":"Player O turn",
                   style: TextStyle(
@@ -65,24 +92,25 @@ class GameScreen extends StatelessWidget {
                          }else{
                            cubit.changeGridValues(0, 0, cubit.PLAYER_TWO);
                          }
+                         cubit.checkWinner();
                       },
-                      child: Container(
-                        height: 100,
-                        width: 100,
-                        child:Center(
-                          child: Text(
-                            cubit.lettersGrid[0][0],
-                            style:TextStyle(
-                                color: cubit.colorsGrid[0][0],
-                                fontSize: 70,
-                                fontWeight: FontWeight.bold
-                            ) ,),
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          child:Center(
+                            child: Text(
+                              cubit.lettersGrid[0][0],
+                              style:TextStyle(
+                                  color: cubit.colorsGrid[0][0],
+                                  fontSize: 70,
+                                  fontWeight: FontWeight.bold
+                              ) ,),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.deepPurple,
+                          ),
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.deepPurple,
-                        ),
-                      ),
                     ),
                     SizedBox(width: 15,),
                     InkWell(
@@ -92,6 +120,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(0, 1, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -119,6 +148,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(0, 2, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -151,6 +181,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(1, 0, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -178,6 +209,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(1, 1, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -205,6 +237,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(1, 2, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -237,6 +270,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(2, 0, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -264,6 +298,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(2, 1, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -291,6 +326,7 @@ class GameScreen extends StatelessWidget {
                         }else{
                           cubit.changeGridValues(2, 2, cubit.PLAYER_TWO);
                         }
+                        cubit.checkWinner();
                       },
                       child: Container(
                         height: 100,
@@ -312,6 +348,19 @@ class GameScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 15,),
+                MaterialButton(
+                    onPressed: () {
+                      cubit.clearGame();
+                    },
+                  color: (cubit.turn)?Colors.red:Colors.orange,
+                  child: Text(
+                      "Reset",
+                    style: TextStyle(
+                      color:(!cubit.turn)?Colors.red:Colors.orange,
+                    ),
+                  ),
+                )
               ],
             )
           );

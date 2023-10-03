@@ -16,8 +16,13 @@ class ChooseScreen extends StatelessWidget {
          listener: (context,state){},
          builder: (context,state){
           var cubit =  GameCubit.get(context);
+          var playerX = TextEditingController();
+          var playerO = TextEditingController();
+          var formKey = GlobalKey<FormState>();
+          var scaffoldKey = GlobalKey<ScaffoldState>();
           return Scaffold(
-             backgroundColor: HexColor("#050A30"),
+            key: scaffoldKey,
+             backgroundColor: HexColor("#050A30") ,
              appBar: AppBar(
                leading: IconButton(
                  onPressed: (){
@@ -27,73 +32,65 @@ class ChooseScreen extends StatelessWidget {
                ),
                backgroundColor: HexColor("#050A30"),
                elevation: 0.0,),
-             body: Column(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                 Text(
-                   "Player One Choose X or O :",
-                   style: TextStyle(
-                       color: Colors.white,
-                       fontWeight: FontWeight.w600,
-                       fontSize: 25
+             body: Padding(
+               padding: const EdgeInsets.all(20.0),
+               child: Form(
+                 key: formKey,
+                   child: Center(
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Please enter your names: ",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 26,
+                            color: Colors.white
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        defaultFormField(
+                              controller: playerX,
+                              type: TextInputType.text,
+                              validate: (value){
+                                if(value!.isEmpty){return "Please enter your name";}
+                                return null;
+                              },
+                              label: "PlayerX",
+                              prefix: Icons.title_sharp
+                          ),
+                          SizedBox(height: 20,),
+                          defaultFormField(
+                            controller: playerO,
+                            type: TextInputType.text,
+                            validate: (value){
+                              if(value!.isEmpty){return "Please enter your name";}
+                              return null;
+                            },
+                            label: "PlayerO",
+                            prefix: Icons.title_sharp
+                        ),
+                        SizedBox(height: 25,),
+                        MaterialButton(
+                          onPressed: () {
+                            if(formKey.currentState!.validate()){
+                              cubit.PLAYER_ONE_NAME = playerX.text;
+                              cubit.PLAYER_TWO_NAME = playerO.text;
+                               navigateAndFinish(context, GameScreen());
+                            }
+                          },
+                          color:  Colors.purpleAccent,
+                          child: Text(
+                            "START",
+                            style: TextStyle(
+                              color:Colors.white,
+                            ),
+                          ),
+                        )
+                      ],
+               ),
                    ),
                  ),
-                 SizedBox(height: 20,),
-                 Center(
-                   child: Row(
-                     mainAxisAlignment: MainAxisAlignment.center,
-                     children: [
-                       InkWell(
-                         onTap: (){
-                           cubit.PLAYER_ONE = 1;
-                           cubit.PLAYER_TWO = 2;
-                           navigateTo(context, GameScreen());
-                         },
-                         child: Container(
-                           height: 100,
-                           width: 100,
-                           child:Center(
-                             child: Text("X",
-                               style:TextStyle(
-                                   color: Colors.red,
-                                   fontSize: 70,
-                                   fontWeight: FontWeight.bold
-                               ) ,),
-                           ),
-                           decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(15),
-                             color: Colors.deepPurple,
-                           ),
-                         ),
-                       ),
-                       SizedBox(width: 15,),
-                       InkWell(
-                         onTap: (){
-                           cubit.PLAYER_ONE = 2;
-                           cubit.PLAYER_TWO = 1;
-                           navigateTo(context, GameScreen());
-                         },
-                         child: Container(
-                           height: 100,
-                           width: 100,
-                           child:Center(
-                             child: Text("O",
-                               style:TextStyle(
-                                   color: Colors.orange,
-                                   fontSize: 70,
-                                   fontWeight: FontWeight.bold
-                               ) ,),
-                           ),
-                           decoration: BoxDecoration(
-                             borderRadius: BorderRadius.circular(15),
-                             color: Colors.deepPurple,
-                           ),
-                         ),
-                       ),
-                     ],
-                   ),
-                 )
-               ],
              ),
            );
         },
